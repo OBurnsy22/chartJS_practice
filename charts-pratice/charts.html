@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- including chart.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+        <!-- datalabels plugin -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0-rc.1/chartjs-plugin-datalabels.min.js" integrity="sha512-+UYTD5L/bU1sgAfWA0ELK5RlQ811q8wZIocqI7+K0Lhh8yVdIoAMEs96wJAIbgFvzynPm36ZCXtkydxu1cs27w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <title> Getting Started With Chart.js</title>
+    </head>
+    <body>
+        <div class="container">
+            <canvas id="myChart"></canvas>
+        </div>
+        <break></break>
+        <div class="container">
+            <canvas id="myPiechart"></canvas>
+        </div>
+
+        <script>
+            //BAR CHART
+            let myChart = document.getElementById('myChart').getContext('2d');
+            let barChart = new Chart(myChart, {
+                type:'bar', //can have bar, horozontal bar, pie, line, doughnut, radar, polarArea
+                data: {
+                    labels: ['one', 'two', 'three', 'four', 'five'],
+                    datasets: [{
+                        label:'Population',
+                        data: [
+                            100,
+                            200,
+                            300,
+                            400,
+                            500
+                        ],
+                        backgroundColor: [ //can be single value or array
+                            'red',
+                            'blue',
+                            'yellow',
+                            'green',
+                            'orange'
+                        ],
+                        borderWidth: 2,
+                        borderColor: 'gray',
+                        hoverBorderWidth: 4,
+                        hoverBorderColor: 'black',
+                    }],
+                },
+                options: {
+                    title:{
+                        enabled: true,
+                        text: 'A test bar chart',
+                        fontSize: 25,
+                    },
+                    legend:{
+                        position: 'right'
+                    }
+                },
+            });
+
+            //PIE CHART
+            let myPieChart = document.getElementById('myPiechart').getContext('2d');
+            console.log("hello");
+            let pieChart = new Chart(myPieChart, {
+                //register plugins used in this specific chart
+                plugins: [ChartDataLabels],
+                type:'doughnut',
+                data: {
+                    labels: [
+                        'Sleep',
+                        'Eat',
+                        'Gym',
+                    ],
+                    datasets: [{
+                        data: [
+                            1,
+                            3,
+                            5
+                        ],
+                        backgroundColor: [
+                            'pink',
+                            'cyan',
+                            'teal',
+                        ],
+                        borderWidth: 1,
+                        borderColor: 'black',
+                        hoverBorderWidth: 3,
+                        hoverBorderColor: 'black'
+                    }],
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Hours of activities per day',
+                        },
+                        //for hints at calculating percentages, refer to: https://stackoverflow.com/questions/217957/how-do-i-print-debug-messages-in-the-google-chrome-javascript-console
+                        datalabels: {
+                            /*
+                            function used to alter the data label values, accepts two arguments, 
+                            value (the current data value), and context (contextual information)
+                            */
+                            formatter: function(value, context){
+                                //console.log(value);
+                                //console.log(context);
+
+                                let chartData = context.Chart.data.datasets;
+                                console.log(chartData);
+                            },
+                            color: 'red',
+                            textAlign: "center",
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
