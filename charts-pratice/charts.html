@@ -58,53 +58,50 @@
             });
 
             //PIE CHART
-            let myPieChart = document.getElementById('myPiechart').getContext('2d');
-            console.log("hello");
-            let pieChart = new Chart(myPieChart, {
-                //register plugins used in this specific chart
-                plugins: [ChartDataLabels],
-                type:'doughnut',
-                data: {
+            var data = [{
                     labels: [
                         'Sleep',
                         'Eat',
                         'Gym',
                     ],
-                    datasets: [{
-                        data: [
-                            1,
-                            3,
-                            5
-                        ],
-                        backgroundColor: [
-                            'pink',
-                            'cyan',
-                            'teal',
-                        ],
-                        borderWidth: 1,
-                        borderColor: 'black',
-                        hoverBorderWidth: 3,
-                        hoverBorderColor: 'black'
-                    }],
-                },
-                options: {
-                    plugins: {
+                    data: [
+                        1,
+                        3,
+                        5
+                    ],
+                    backgroundColor: [
+                        'pink',
+                        'cyan',
+                        'teal',
+                    ],
+                    borderWidth: 1,
+                    borderColor: 'black',
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: 'black'
+            }];
+
+            var options = {
+                plugins: {
                         title: {
                             display: true,
                             text: 'Hours of activities per day',
                         },
-                        //for hints at calculating percentages, refer to: https://stackoverflow.com/questions/217957/how-do-i-print-debug-messages-in-the-google-chrome-javascript-console
                         datalabels: {
                             /*
                             function used to alter the data label values, accepts two arguments, 
                             value (the current data value), and context (contextual information)
                             */
-                            formatter: function(value, context){
+                            formatter: (value, context) => {
                                 //console.log(value);
-                                //console.log(context);
-
-                                let chartData = context.Chart.data.datasets;
-                                console.log(chartData);
+                                var sum;
+                                //returns object of all data elements in chart
+                                let dataSet = context.chart.data.datasets[0].data;
+                                dataSet.map(data => {
+                                    console.log(typeof data);
+                                    sum += Number(data);
+                                });
+                                console.log(Number(sum));
+                                //console.log(typeof sum);
                             },
                             color: 'red',
                             textAlign: "center",
@@ -114,8 +111,20 @@
                             }
                         }
                     }
-                }
+                };
+
+            let myPieChart = document.getElementById('myPiechart').getContext('2d');
+            console.log("hello");
+            let pieChart = new Chart(myPieChart, {
+                //register plugins used in this specific chart
+                plugins: [ChartDataLabels],
+                type:'doughnut',
+                data: {
+                    datasets: data,
+                },
+                options: options,
             });
+
         </script>
     </body>
 </html>
