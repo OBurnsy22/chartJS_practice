@@ -92,29 +92,25 @@
                             value (the current data value), and context (contextual information)
                             */
                             formatter: (value, context) => {
-                                //console.log(value);
-                                var sum;
+                                let sum = 0;
                                 //returns object of all data elements in chart
                                 let dataSet = context.chart.data.datasets[0].data;
+                                //convert objects data values to a map so they can be iterated over
                                 dataSet.map(data => {
-                                    console.log(typeof data);
-                                    sum += Number(data);
+                                    sum += data;
                                 });
-                                console.log(Number(sum));
-                                //console.log(typeof sum);
+                                return Math.round((value / sum) * 100) + '%';
                             },
-                            color: 'red',
+                            color: 'black',
                             textAlign: "center",
                             font: {
                                 weight: "bold",
-                                size: 30
+                                size: 25
                             }
                         }
                     }
                 };
-
             let myPieChart = document.getElementById('myPiechart').getContext('2d');
-            console.log("hello");
             let pieChart = new Chart(myPieChart, {
                 //register plugins used in this specific chart
                 plugins: [ChartDataLabels],
@@ -124,7 +120,6 @@
                 },
                 options: options,
             });
-
         </script>
     </body>
 </html>
